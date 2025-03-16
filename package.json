@@ -4,6 +4,10 @@
   "version": "0.1.1",
   "description": "ESLint plugin to transform barrel imports into direct imports",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TrevorBurnham/eslint-plugin-debarrel.git"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
