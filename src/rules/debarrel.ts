@@ -1,9 +1,40 @@
 import type { Rule } from "eslint";
 import type { ImportDeclaration, ImportSpecifier, Identifier } from "estree";
 
+function toKebabCase(str: string): string {
+  return str
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/([A-Z])([A-Z])(?=[a-z])/g, "$1-$2")
+    .toLowerCase();
+}
+
+function toCamelCase(str: string): string {
+  return str.charAt(0).toLowerCase() + str.slice(1);
+}
+
+function transformImportName(name: string, transform?: PatternConfig["transformImportName"]): string {
+  if (!transform) return name;
+
+  if (typeof transform === "function") {
+    return transform(name);
+  }
+
+  switch (transform) {
+    case "lowercase":
+      return name.toLowerCase();
+    case "kebab-case":
+      return toKebabCase(name);
+    case "camelCase":
+      return toCamelCase(name);
+    default:
+      return name;
+  }
+}
+
 interface PatternConfig {
   barrel: string;
   transformPattern: string;
+  transformImportName?: "lowercase" | "kebab-case" | "camelCase" | ((importName: string) => string);
 }
 
 interface RuleOptions {
@@ -29,6 +60,16 @@ const rule: Rule.RuleModule = {
               properties: {
                 barrel: { type: "string" },
                 transformPattern: { type: "string" },
+                transformImportName: {
+                  anyOf: [
+                    {
+                      enum: ["lowercase", "kebab-case", "camelCase"]
+                    },
+                    {
+                      not: { type: "string" }
+                    }
+                  ]
+                },
               },
               required: ["barrel", "transformPattern"],
               additionalProperties: false,
@@ -69,9 +110,10 @@ const rule: Rule.RuleModule = {
             const newImports = specifiers.map((specifier) => {
               const importName = (specifier.imported as Identifier).name;
               const localName = specifier.local.name;
+              const transformedName = transformImportName(importName, matchingPattern.transformImportName);
               const newPath = matchingPattern.transformPattern.replace(
                 "{{importName}}",
-                importName,
+                transformedName,
               );
               return `import ${localName} from "${newPath}";`;
             });

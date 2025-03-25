@@ -3,14 +3,14 @@
 An ESLint plugin to transform barrel imports into direct imports. For example:
 
 ```typescript
-import { Button, Dialog } from "@material-ui/core";
+import { Box, Button } from "@cloudscape-design/components";
 ```
 
 Will be transformed to:
 
 ```typescript
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
+import Box from "@cloudscape-design/components/box";
+import Button from "@cloudscape-design/components/button";
 ```
 
 ## Why?
@@ -50,9 +50,10 @@ export default [
         {
           patterns: [
             {
-              barrel: "@material-ui/core",
-              transformPattern: "@material-ui/core/{{importName}}",
-            },
+              "barrel": "@cloudscape-design/components",
+              "transformPattern": "@cloudscape-design/components/{{importName}}",
+              "transformImportName": "lowercase"
+            }
           ],
         },
       ],
@@ -81,8 +82,9 @@ Then configure the rule under the rules section:
       {
         "patterns": [
           {
-            "barrel": "@material-ui/core",
-            "transformPattern": "@material-ui/core/{{importName}}"
+            "barrel": "@cloudscape-design/components",
+            "transformPattern": "@cloudscape-design/components/{{importName}}",
+            "transformImportName": "lowercase"
           }
         ]
       }
@@ -97,3 +99,4 @@ For each barrel file you want to avoid, add an object to the `patterns` list wit
 
 - `barrel`: The import path of the barrel file
 - `transformPattern`: The path that each named import should be imported from as a default import instead, using `{{importName}}` as a placeholder
+- `transformImportName` (optional): Transform the original import name before using it in the `transformPattern`. The transform can be either a string-to-string function or one of the following: `"lowercase" | "kebab-case" | "camelCase"`.
