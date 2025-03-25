@@ -8,6 +8,10 @@
     "type": "git",
     "url": "https://github.com/TrevorBurnham/eslint-plugin-debarrel.git"
   },
+  "homepage": "https://github.com/TrevorBurnham/eslint-plugin-debarrel",
+  "bugs": {
+    "url": "https://github.com/TrevorBurnham/eslint-plugin-debarrel/issues"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
