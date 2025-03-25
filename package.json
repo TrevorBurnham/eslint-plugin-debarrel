@@ -1,7 +1,7 @@
 {
   "author": "Trevor Burnham (https://trevorburnham.com)",
   "name": "eslint-plugin-debarrel",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "ESLint plugin to transform barrel imports into direct imports",
   "type": "module",
   "repository": {
