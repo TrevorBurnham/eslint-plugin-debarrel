@@ -27,6 +27,8 @@
     "format": "eslint . --fix && prettier . --log-level warn --write",
     "test": "vitest",
     "test:eslint8": "npm run build && node test/eslint8/test.js",
+    "test:eslint9": "npm run build && node test/eslint9/test.js",
+    "test:all": "vitest --run && npm run test:eslint8 && npm run test:eslint9",
     "release": "np"
   },
   "keywords": [
@@ -44,6 +46,7 @@
     "@typescript-eslint/parser": "^7.18.0",
     "@typescript-eslint/rule-tester": "^8.26.1",
     "eslint": "^8.57.0",
+    "eslint9": "npm:eslint@^9.0.0",
     "np": "^10.2.0",
     "prettier": "^3.5.3",
     "typescript": "^5.3.3",

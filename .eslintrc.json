@@ -16,5 +16,5 @@
     "node": true,
     "es2020": true
   },
-  "ignorePatterns": ["dist/", "test/eslint8/"]
+  "ignorePatterns": ["dist/", "test/eslint8/", "test/eslint9/"]
 }
