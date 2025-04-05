@@ -12,7 +12,10 @@ function toCamelCase(str: string): string {
   return str.charAt(0).toLowerCase() + str.slice(1);
 }
 
-function transformImportName(name: string, transform?: PatternConfig["transformImportName"]): string {
+function transformImportName(
+  name: string,
+  transform?: PatternConfig["transformImportName"],
+): string {
   if (!transform) return name;
 
   if (typeof transform === "function") {
@@ -34,7 +37,11 @@ function transformImportName(name: string, transform?: PatternConfig["transformI
 interface PatternConfig {
   barrel: string;
   transformPattern: string;
-  transformImportName?: "lowercase" | "kebab-case" | "camelCase" | ((importName: string) => string);
+  transformImportName?:
+    | "lowercase"
+    | "kebab-case"
+    | "camelCase"
+    | ((importName: string) => string);
 }
 
 interface RuleOptions {
@@ -63,12 +70,12 @@ const rule: Rule.RuleModule = {
                 transformImportName: {
                   anyOf: [
                     {
-                      enum: ["lowercase", "kebab-case", "camelCase"]
+                      enum: ["lowercase", "kebab-case", "camelCase"],
                     },
                     {
-                      not: { type: "string" }
-                    }
-                  ]
+                      not: { type: "string" },
+                    },
+                  ],
                 },
               },
               required: ["barrel", "transformPattern"],
@@ -110,7 +117,10 @@ const rule: Rule.RuleModule = {
             const newImports = specifiers.map((specifier) => {
               const importName = (specifier.imported as Identifier).name;
               const localName = specifier.local.name;
-              const transformedName = transformImportName(importName, matchingPattern.transformImportName);
+              const transformedName = transformImportName(
+                importName,
+                matchingPattern.transformImportName,
+              );
               const newPath = matchingPattern.transformPattern.replace(
                 "{{importName}}",
                 transformedName,

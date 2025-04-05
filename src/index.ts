@@ -1,7 +1,9 @@
 import debarrel from "./rules/debarrel.js";
 
-export default {
+const plugin = {
   rules: {
     debarrel,
   },
 };
+
+export default plugin;

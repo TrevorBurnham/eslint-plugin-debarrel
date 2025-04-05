@@ -50,10 +50,10 @@ export default [
         {
           patterns: [
             {
-              "barrel": "@cloudscape-design/components",
-              "transformPattern": "@cloudscape-design/components/{{importName}}",
-              "transformImportName": "lowercase"
-            }
+              barrel: "@cloudscape-design/components",
+              transformPattern: "@cloudscape-design/components/{{importName}}",
+              transformImportName: "lowercase",
+            },
           ],
         },
       ],

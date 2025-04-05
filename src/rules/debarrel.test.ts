@@ -84,15 +84,17 @@ import Dialog from "@material-ui/core/Dialog";`,
               patterns: [
                 {
                   barrel: "@cloudscape-design/components",
-                  transformPattern: "@cloudscape-design/components/{{importName}}",
-                  transformImportName: "lowercase"
+                  transformPattern:
+                    "@cloudscape-design/components/{{importName}}",
+                  transformImportName: "lowercase",
                 },
               ],
             },
           ],
           errors: [
             {
-              message: "Barrel imports should be transformed into direct imports",
+              message:
+                "Barrel imports should be transformed into direct imports",
             },
           ],
           output: 'import Box from "@cloudscape-design/components/box";',
@@ -113,14 +115,15 @@ import Dialog from "@material-ui/core/Dialog";`,
                 {
                   barrel: "@my-lib/components",
                   transformPattern: "@my-lib/components/{{importName}}",
-                  transformImportName: "kebab-case"
+                  transformImportName: "kebab-case",
                 },
               ],
             },
           ],
           errors: [
             {
-              message: "Barrel imports should be transformed into direct imports",
+              message:
+                "Barrel imports should be transformed into direct imports",
             },
           ],
           output: 'import MyComponent from "@my-lib/components/my-component";',
@@ -141,14 +144,15 @@ import Dialog from "@material-ui/core/Dialog";`,
                 {
                   barrel: "@my-lib/components",
                   transformPattern: "@my-lib/components/{{importName}}",
-                  transformImportName: "camelCase"
+                  transformImportName: "camelCase",
                 },
               ],
             },
           ],
           errors: [
             {
-              message: "Barrel imports should be transformed into direct imports",
+              message:
+                "Barrel imports should be transformed into direct imports",
             },
           ],
           output: 'import MyComponent from "@my-lib/components/myComponent";',
@@ -169,17 +173,19 @@ import Dialog from "@material-ui/core/Dialog";`,
                 {
                   barrel: "@my-lib/components",
                   transformPattern: "@my-lib/components/{{importName}}",
-                  transformImportName: (name) => `custom-${name.toLowerCase()}`
+                  transformImportName: (name) => `custom-${name.toLowerCase()}`,
                 },
               ],
             },
           ],
           errors: [
             {
-              message: "Barrel imports should be transformed into direct imports",
+              message:
+                "Barrel imports should be transformed into direct imports",
             },
           ],
-          output: 'import MyComponent from "@my-lib/components/custom-mycomponent";',
+          output:
+            'import MyComponent from "@my-lib/components/custom-mycomponent";',
         },
       ],
     });
@@ -197,14 +203,16 @@ import Dialog from "@material-ui/core/Dialog";`,
                 {
                   barrel: "@my-lib/components",
                   transformPattern: "@my-lib/components/{{importName}}",
-                  transformImportName: (name) => name.replace("Button", "btn-").toLowerCase()
+                  transformImportName: (name) =>
+                    name.replace("Button", "btn-").toLowerCase(),
                 },
               ],
             },
           ],
           errors: [
             {
-              message: "Barrel imports should be transformed into direct imports",
+              message:
+                "Barrel imports should be transformed into direct imports",
             },
           ],
           output: `import ButtonA from "@my-lib/components/btn-a";
