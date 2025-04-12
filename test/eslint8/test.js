@@ -56,7 +56,7 @@ async function runTest() {
     }
 
     console.log(
-      "Test passed! The plugin successfully transformed the barrel imports.",
+      "✅ ESLint 8 test passed.",
     );
   } catch (error) {
     console.error("Test failed:", error.message);

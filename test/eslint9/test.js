@@ -72,7 +72,7 @@ async function runTest() {
       throw new Error('Transformation output did not match expected output');
     }
 
-    console.log('Test passed! The plugin successfully transformed the barrel imports with ESLint 9.');
+    console.log('✅ ESLint 9 test passed.');
   } catch (error) {
     console.error('Test failed:', error.message);
     process.exit(1);
