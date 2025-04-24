@@ -97,7 +97,8 @@ import Dialog from "@material-ui/core/Dialog";`,
                 "Barrel imports should be transformed into direct imports",
             },
           ],
-          output: 'import DatePicker from "@cloudscape-design/components/date-picker";',
+          output:
+            'import DatePicker from "@cloudscape-design/components/date-picker";',
         },
       ],
     });
@@ -217,6 +218,242 @@ import Dialog from "@material-ui/core/Dialog";`,
           ],
           output: `import ButtonA from "@my-lib/components/btn-a";
 import ButtonB from "@my-lib/components/btn-b";`,
+        },
+      ],
+    });
+  });
+
+  it("transforms imports with Props suffix to named imports", () => {
+    ruleTester.run("debarrel", rule, {
+      valid: [],
+      invalid: [
+        {
+          code: 'import { Button, ButtonProps } from "@cloudscape-design/components";',
+          options: [
+            {
+              patterns: [
+                {
+                  barrel: "@cloudscape-design/components",
+                  transformPattern:
+                    "@cloudscape-design/components/{{importName}}",
+                  transformImportName: "kebab-case",
+                  namedExports: {
+                    suffixes: ["Props"],
+                  },
+                },
+              ],
+            },
+          ],
+          errors: [
+            {
+              message:
+                "Barrel imports should be transformed into direct imports",
+            },
+          ],
+          output: `import Button from "@cloudscape-design/components/button";
+import { ButtonProps } from "@cloudscape-design/components/button";`,
+        },
+      ],
+    });
+  });
+
+  it("transforms imports with multiple suffixes to named imports", () => {
+    ruleTester.run("debarrel", rule, {
+      valid: [],
+      invalid: [
+        {
+          code: 'import { Button, ButtonProps, ButtonInterface } from "@my-lib/components";',
+          options: [
+            {
+              patterns: [
+                {
+                  barrel: "@my-lib/components",
+                  transformPattern: "@my-lib/components/{{importName}}",
+                  transformImportName: "kebab-case",
+                  namedExports: {
+                    suffixes: ["Props", "Interface"],
+                  },
+                },
+              ],
+            },
+          ],
+          errors: [
+            {
+              message:
+                "Barrel imports should be transformed into direct imports",
+            },
+          ],
+          output: `import Button from "@my-lib/components/button";
+import { ButtonProps } from "@my-lib/components/button";
+import { ButtonInterface } from "@my-lib/components/button";`,
+        },
+      ],
+    });
+  });
+
+  it("preserves type imports for regular imports", () => {
+    ruleTester.run("debarrel", rule, {
+      valid: [],
+      invalid: [
+        {
+          code: 'import type { Button } from "@my-lib/components";',
+          options: [
+            {
+              patterns: [
+                {
+                  barrel: "@my-lib/components",
+                  transformPattern: "@my-lib/components/{{importName}}",
+                  transformImportName: "kebab-case",
+                },
+              ],
+            },
+          ],
+          errors: [
+            {
+              message:
+                "Barrel imports should be transformed into direct imports",
+            },
+          ],
+          output: 'import type Button from "@my-lib/components/button";',
+        },
+      ],
+    });
+  });
+
+  it("preserves type imports for named exports", () => {
+    ruleTester.run("debarrel", rule, {
+      valid: [],
+      invalid: [
+        {
+          code: 'import type { ButtonProps } from "@my-lib/components";',
+          options: [
+            {
+              patterns: [
+                {
+                  barrel: "@my-lib/components",
+                  transformPattern: "@my-lib/components/{{importName}}",
+                  transformImportName: "kebab-case",
+                  namedExports: {
+                    suffixes: ["Props"],
+                  },
+                },
+              ],
+            },
+          ],
+          errors: [
+            {
+              message:
+                "Barrel imports should be transformed into direct imports",
+            },
+          ],
+          output:
+            'import type { ButtonProps } from "@my-lib/components/button";',
+        },
+      ],
+    });
+  });
+
+  it("uses custom pattern for named exports if provided", () => {
+    ruleTester.run("debarrel", rule, {
+      valid: [],
+      invalid: [
+        {
+          code: 'import { ButtonProps } from "@my-lib/components";',
+          options: [
+            {
+              patterns: [
+                {
+                  barrel: "@my-lib/components",
+                  transformPattern: "@my-lib/components/{{importName}}",
+                  transformImportName: "kebab-case",
+                  namedExports: {
+                    suffixes: ["Props"],
+                    customPattern: "@my-lib/components/types/{{importName}}",
+                  },
+                },
+              ],
+            },
+          ],
+          errors: [
+            {
+              message:
+                "Barrel imports should be transformed into direct imports",
+            },
+          ],
+          output:
+            'import { ButtonProps } from "@my-lib/components/types/button";',
+        },
+      ],
+    });
+  });
+
+  it("uses custom transform function for named exports if provided", () => {
+    ruleTester.run("debarrel", rule, {
+      valid: [],
+      invalid: [
+        {
+          code: 'import { ButtonProps } from "@my-lib/components";',
+          options: [
+            {
+              patterns: [
+                {
+                  barrel: "@my-lib/components",
+                  transformPattern: "@my-lib/components/{{importName}}",
+                  transformImportName: "kebab-case",
+                  namedExports: {
+                    suffixes: ["Props"],
+                    transformImportName: () => {
+                      // Return a lowercase result for the test to pass
+                      return "button-custom";
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+          errors: [
+            {
+              message:
+                "Barrel imports should be transformed into direct imports",
+            },
+          ],
+          output:
+            'import { ButtonProps } from "@my-lib/components/button-custom";',
+        },
+      ],
+    });
+  });
+
+  it("handles mixed regular and named export imports", () => {
+    ruleTester.run("debarrel", rule, {
+      valid: [],
+      invalid: [
+        {
+          code: 'import { Button, Card, ButtonProps, CardInterface } from "@my-lib/components";',
+          options: [
+            {
+              patterns: [
+                {
+                  barrel: "@my-lib/components",
+                  transformPattern: "@my-lib/components/{{importName}}",
+                  transformImportName: "kebab-case",
+                  namedExports: {
+                    suffixes: ["Props", "Interface"],
+                  },
+                },
+              ],
+            },
+          ],
+          errors: [
+            {
+              message:
+                "Barrel imports should be transformed into direct imports",
+            },
+          ],
+          output: `import Button from "@my-lib/components/button";
+import Card from "@my-lib/components/card";
+import { ButtonProps } from "@my-lib/components/button";
+import { CardInterface } from "@my-lib/components/card";`,
         },
       ],
     });

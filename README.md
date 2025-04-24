@@ -100,3 +100,7 @@ For each barrel file you want to avoid, add an object to the `patterns` list wit
 - `barrel`: The import path of the barrel file
 - `transformPattern`: The path that each named import should be imported from as a default import instead, using `{{importName}}` as a placeholder
 - `transformImportName` (optional): Transform the original import name before using it in the `transformPattern`. The transform can be either a string-to-string function or one of the following: `"lowercase" | "kebab-case" | "camelCase"`.
+- `namedExports` (optional): Configuration for handling imports that should be treated as named exports rather than default exports.
+  - `suffixes`: Array of suffixes (e.g., `["Props", "Interface"]`) that should be treated as named exports
+  - `customPattern` (optional): Custom pattern for named exports, defaults to the same as `transformPattern`
+  - `transformImportName` (optional): Custom function to transform the import name for named exports

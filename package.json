@@ -25,7 +25,7 @@
   "scripts": {
     "build": "tsup",
     "format": "eslint . --fix && prettier . --log-level warn --write",
-    "test": "vitest",
+    "test": "vitest --run",
     "test:eslint8": "npm run build && node test/eslint8/test.js",
     "test:eslint9": "npm run build && node test/eslint9/test.js",
     "test:all": "vitest --run && npm run test:eslint8 && npm run test:eslint9",
