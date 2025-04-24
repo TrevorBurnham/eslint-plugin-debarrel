@@ -55,9 +55,7 @@ async function runTest() {
       throw new Error("Transformation output did not match expected output");
     }
 
-    console.log(
-      "✅ ESLint 8 test passed.",
-    );
+    console.log("✅ ESLint 8 test passed.");
   } catch (error) {
     console.error("Test failed:", error.message);
     process.exit(1);

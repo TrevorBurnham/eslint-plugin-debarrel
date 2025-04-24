@@ -1,41 +1,46 @@
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-import tseslint from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default [
   {
-    ignores: ['.eslintrc.cjs'],
+    ignores: [".eslintrc.cjs"],
   },
   {
-    files: ['**/*.ts', '**/*.js', '**/*.cjs'],
+    files: ["**/*.ts", "**/*.js", "**/*.cjs"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: join(__dirname, 'tsconfig.json'),
+        project: join(__dirname, "tsconfig.json"),
         tsconfigRootDir: __dirname,
         ecmaVersion: 2020,
-        sourceType: 'module',
+        sourceType: "module",
       },
     },
     plugins: {
-      '@typescript-eslint': tseslint,
-      'debarrel': null, // This will be injected in the test
+      "@typescript-eslint": tseslint,
+      debarrel: null, // This will be injected in the test
     },
     rules: {
-      'debarrel/debarrel': ['error', {
-        patterns: [{
-          barrel: '@test/barrel',
-          transformPattern: '@test/barrel/{{importName}}',
-        }],
-      }],
+      "debarrel/debarrel": [
+        "error",
+        {
+          patterns: [
+            {
+              barrel: "@test/barrel",
+              transformPattern: "@test/barrel/{{importName}}",
+            },
+          ],
+        },
+      ],
     },
     settings: {
-      'import/resolver': {
+      "import/resolver": {
         typescript: {
-          project: './tsconfig.json',
+          project: "./tsconfig.json",
         },
       },
     },

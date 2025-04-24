@@ -10,5 +10,5 @@ const plugin = {
   rules: {
     debarrel,
   },
-}
+};
 export default plugin;
