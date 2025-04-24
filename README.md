@@ -3,14 +3,14 @@
 An ESLint plugin to transform barrel imports into direct imports. For example:
 
 ```typescript
-import { Box, Button } from "@cloudscape-design/components";
+import { Button, DatePicker } from "@cloudscape-design/components";
 ```
 
 Will be transformed to:
 
 ```typescript
-import Box from "@cloudscape-design/components/box";
 import Button from "@cloudscape-design/components/button";
+import DatePicker from "@cloudscape-design/components/date-picker";
 ```
 
 ## Why?
@@ -52,7 +52,7 @@ export default [
             {
               barrel: "@cloudscape-design/components",
               transformPattern: "@cloudscape-design/components/{{importName}}",
-              transformImportName: "lowercase",
+              transformImportName: "kebab-case",
             },
           ],
         },

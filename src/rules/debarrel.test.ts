@@ -73,12 +73,12 @@ import Dialog from "@material-ui/core/Dialog";`,
     });
   });
 
-  it("transforms import names to lowercase", () => {
+  it("transforms import names to kebab-case", () => {
     ruleTester.run("debarrel", rule, {
       valid: [],
       invalid: [
         {
-          code: 'import { Box } from "@cloudscape-design/components";',
+          code: 'import { DatePicker } from "@cloudscape-design/components";',
           options: [
             {
               patterns: [
@@ -86,35 +86,6 @@ import Dialog from "@material-ui/core/Dialog";`,
                   barrel: "@cloudscape-design/components",
                   transformPattern:
                     "@cloudscape-design/components/{{importName}}",
-                  transformImportName: "lowercase",
-                },
-              ],
-            },
-          ],
-          errors: [
-            {
-              message:
-                "Barrel imports should be transformed into direct imports",
-            },
-          ],
-          output: 'import Box from "@cloudscape-design/components/box";',
-        },
-      ],
-    });
-  });
-
-  it("transforms import names to kebab-case", () => {
-    ruleTester.run("debarrel", rule, {
-      valid: [],
-      invalid: [
-        {
-          code: 'import { MyComponent } from "@my-lib/components";',
-          options: [
-            {
-              patterns: [
-                {
-                  barrel: "@my-lib/components",
-                  transformPattern: "@my-lib/components/{{importName}}",
                   transformImportName: "kebab-case",
                 },
               ],
@@ -126,7 +97,36 @@ import Dialog from "@material-ui/core/Dialog";`,
                 "Barrel imports should be transformed into direct imports",
             },
           ],
-          output: 'import MyComponent from "@my-lib/components/my-component";',
+          output: 'import DatePicker from "@cloudscape-design/components/date-picker";',
+        },
+      ],
+    });
+  });
+
+  it("transforms import names to lowercase", () => {
+    ruleTester.run("debarrel", rule, {
+      valid: [],
+      invalid: [
+        {
+          code: 'import { MyComponent } from "@my-lib/components";',
+          options: [
+            {
+              patterns: [
+                {
+                  barrel: "@my-lib/components",
+                  transformPattern: "@my-lib/components/{{importName}}",
+                  transformImportName: "lowercase",
+                },
+              ],
+            },
+          ],
+          errors: [
+            {
+              message:
+                "Barrel imports should be transformed into direct imports",
+            },
+          ],
+          output: 'import MyComponent from "@my-lib/components/mycomponent";',
         },
       ],
     });
