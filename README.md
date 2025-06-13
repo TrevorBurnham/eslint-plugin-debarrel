@@ -53,6 +53,9 @@ export default [
               barrel: "@cloudscape-design/components",
               transformPattern: "@cloudscape-design/components/{{importName}}",
               transformImportName: "kebab-case",
+              namedExports: {
+                suffixes: ["Props"],
+              },
             },
           ],
         },
@@ -84,7 +87,10 @@ Then configure the rule under the rules section:
           {
             "barrel": "@cloudscape-design/components",
             "transformPattern": "@cloudscape-design/components/{{importName}}",
-            "transformImportName": "lowercase"
+            "transformImportName": "lowercase",
+            "namedExports": {
+              "suffixes": ["Props"],
+            },
           }
         ]
       }
