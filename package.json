@@ -26,7 +26,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "npm run typecheck && npm run format && tsup",
+    "typecheck": "tsc --noEmit",
     "format": "eslint . --fix && prettier . --log-level warn --write",
     "test": "vitest --run",
     "test:eslint8": "npm run build && node test/eslint8/test.js",
