@@ -89,8 +89,8 @@ Then configure the rule under the rules section:
             "transformPattern": "@cloudscape-design/components/{{importName}}",
             "transformImportName": "lowercase",
             "namedExports": {
-              "suffixes": ["Props"],
-            },
+              "suffixes": ["Props"]
+            }
           }
         ]
       }
