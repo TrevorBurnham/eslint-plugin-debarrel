@@ -52,7 +52,13 @@ export function getMatchingSuffix(
 ): string | undefined {
   if (!namedExports) return undefined;
 
-  return namedExports.suffixes.find((suffix) => importName.endsWith(suffix));
+  for (const suffix of namedExports.suffixes) {
+    if (importName.endsWith(suffix)) {
+      return suffix;
+    }
+  }
+
+  return undefined;
 }
 
 /**
@@ -103,6 +109,19 @@ export function getDefaultExportImportPath(
 }
 
 /**
+ * Checks if a specifier can be transformed
+ */
+export function isTransformable(
+  specifier: ImportSpecifier,
+  pattern: PatternConfig,
+): boolean {
+  const importName = (specifier.imported as Identifier).name;
+  const matchingSuffix = getMatchingSuffix(importName, pattern.namedExports);
+  // A specifier is transformable if it's a named export or if it's a default export (no suffix match)
+  return !!matchingSuffix || !pattern.namedExports;
+}
+
+/**
  * Generates the import statement for a specifier
  */
 export function generateImportStatement(
@@ -112,7 +131,8 @@ export function generateImportStatement(
 ): string {
   const importName = (specifier.imported as Identifier).name;
   const localName = specifier.local.name;
-  const isTypeImport = node.importKind === "type";
+  const isTypeImport =
+    (node as ImportDeclaration & { importKind?: "type" }).importKind === "type";
   const typePrefix = isTypeImport ? "type " : "";
 
   const matchingSuffix = getMatchingSuffix(importName, pattern.namedExports);

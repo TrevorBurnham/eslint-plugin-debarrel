@@ -458,4 +458,47 @@ import { CardInterface } from "@my-lib/components/card";`,
       ],
     });
   });
+
+  describe("when namedExports is configured", () => {
+    const options = [
+      {
+        patterns: [
+          {
+            barrel: "ui/components",
+            transformPattern: "ui/components/{{importName}}",
+            namedExports: {
+              suffixes: ["Component"],
+            },
+          },
+        ],
+      },
+    ];
+
+    it("does not report an error for non-transformable imports", () => {
+      ruleTester.run("debarrel", rule, {
+        valid: [
+          {
+            code: "import { useBreakpoint, validationUtils } from 'ui/components';",
+            options,
+          },
+        ],
+        invalid: [],
+      });
+    });
+
+    it("does not report an error for partially de-barreled files", () => {
+      ruleTester.run("debarrel", rule, {
+        valid: [
+          {
+            code: `
+              import { ButtonComponent } from 'ui/components/ButtonComponent';
+              import { useTheme } from 'ui/components';
+            `,
+            options,
+          },
+        ],
+        invalid: [],
+      });
+    });
+  });
 });

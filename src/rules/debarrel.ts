@@ -1,7 +1,7 @@
 import type { Rule } from "eslint";
 import type { ImportDeclaration, ImportSpecifier } from "estree";
-import { generateImportStatement } from "../utils";
-import type { RuleOptions } from "../types";
+import { generateImportStatement, isTransformable } from "../utils.js";
+import type { RuleOptions } from "../types.js";
 
 const rule: Rule.RuleModule = {
   meta: {
@@ -62,15 +62,16 @@ const rule: Rule.RuleModule = {
   create(context: Rule.RuleContext) {
     const options = context.options[0] as RuleOptions;
     const { patterns } = options;
+    const patternMap = new Map(
+      patterns.map((pattern) => [pattern.barrel, pattern]),
+    );
 
     return {
       ImportDeclaration(node: ImportDeclaration) {
         const sourceValue = node.source.value;
         if (typeof sourceValue !== "string") return;
 
-        const matchingPattern = patterns.find(
-          (pattern) => pattern.barrel === sourceValue,
-        );
+        const matchingPattern = patternMap.get(sourceValue);
         if (!matchingPattern) return;
 
         const specifiers = node.specifiers.filter(
@@ -79,6 +80,12 @@ const rule: Rule.RuleModule = {
         );
 
         if (specifiers.length === 0) return;
+
+        const hasTransformableSpecifiers = specifiers.some((specifier) =>
+          isTransformable(specifier, matchingPattern),
+        );
+
+        if (!hasTransformableSpecifiers) return;
 
         context.report({
           node,
