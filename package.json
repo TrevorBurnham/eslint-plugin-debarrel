@@ -49,17 +49,17 @@
   "license": "MIT",
   "devDependencies": {
     "@types/eslint": "^8.56.12",
-    "@types/node": "^20.17.57",
-    "@typescript-eslint/eslint-plugin": "^8.33.0",
-    "@typescript-eslint/parser": "^8.33.0",
-    "@typescript-eslint/rule-tester": "^8.33.0",
+    "@types/node": "^20.19.11",
+    "@typescript-eslint/eslint-plugin": "^8.40.0",
+    "@typescript-eslint/parser": "^8.40.0",
+    "@typescript-eslint/rule-tester": "^8.40.0",
     "eslint": "^8.57.1",
-    "eslint9": "npm:eslint@^9.28.0",
+    "eslint9": "npm:eslint@^9.34.0",
     "np": "^10.2.0",
-    "prettier": "^3.5.3",
+    "prettier": "^3.6.2",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3",
-    "vitest": "^3.1.4"
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   },
   "peerDependencies": {
     "eslint": ">=8.0.0"
