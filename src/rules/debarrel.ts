@@ -1,6 +1,6 @@
 import type { Rule } from "eslint";
 import type { ImportDeclaration, ImportSpecifier } from "estree";
-import { generateImportStatement, isTransformable } from "../utils.js";
+import { generateImportStatement } from "../utils.js";
 import type { RuleOptions } from "../types.js";
 
 const rule: Rule.RuleModule = {
@@ -80,12 +80,6 @@ const rule: Rule.RuleModule = {
         );
 
         if (specifiers.length === 0) return;
-
-        const hasTransformableSpecifiers = specifiers.some((specifier) =>
-          isTransformable(specifier, matchingPattern),
-        );
-
-        if (!hasTransformableSpecifiers) return;
 
         context.report({
           node,

@@ -474,30 +474,44 @@ import { CardInterface } from "@my-lib/components/card";`,
       },
     ];
 
-    it("does not report an error for non-transformable imports", () => {
+    it("transforms non-suffix imports to default imports", () => {
       ruleTester.run("debarrel", rule, {
-        valid: [
+        valid: [],
+        invalid: [
           {
             code: "import { useBreakpoint, validationUtils } from 'ui/components';",
             options,
+            errors: [
+              {
+                message:
+                  "Barrel imports should be transformed into direct imports",
+              },
+            ],
+            output: `import useBreakpoint from "ui/components/useBreakpoint";
+import validationUtils from "ui/components/validationUtils";`,
           },
         ],
-        invalid: [],
       });
     });
 
-    it("does not report an error for partially de-barreled files", () => {
+    it("transforms remaining barrel imports in partially de-barreled files", () => {
       ruleTester.run("debarrel", rule, {
-        valid: [
+        valid: [],
+        invalid: [
           {
-            code: `
-              import { ButtonComponent } from 'ui/components/ButtonComponent';
-              import { useTheme } from 'ui/components';
-            `,
+            code: `import { ButtonComponent } from 'ui/components/ButtonComponent';
+import { useTheme } from 'ui/components';`,
             options,
+            errors: [
+              {
+                message:
+                  "Barrel imports should be transformed into direct imports",
+              },
+            ],
+            output: `import { ButtonComponent } from 'ui/components/ButtonComponent';
+import useTheme from "ui/components/useTheme";`,
           },
         ],
-        invalid: [],
       });
     });
   });
